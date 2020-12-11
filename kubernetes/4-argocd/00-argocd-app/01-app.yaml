@@ -5,7 +5,7 @@ metadata:
   namespace: argocd
 spec:
   source:
-    path: kubernetes/1-deployment-service
+    path: kubernetes/1-deployment-service/2-deployment-service
     repoURL: https://github.com/chzgustavo/various.git
     targetRevision: HEAD
   destination:
