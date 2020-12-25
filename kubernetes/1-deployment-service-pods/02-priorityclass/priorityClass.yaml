@@ -1,0 +1,25 @@
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: high-priority
+value: 1000000
+preemptionPolicy: PreemptLowerPriority # valido a partir de la version 1.19. Por defecto. Reemplaza pod si tiene mayor prioridad
+globalDefault: false # no aplica a pod por defecto
+description: "Esta clase de prioridad debe usarse solo para pods de servicio de alta prioridad."
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: high-priority-nonpreemptive
+value: 1000000
+preemptionPolicy: Never # No reemplaza si tiene mayor prioridad
+globalDefault: false
+description: "Esta clase de prioridad debe usarse solo para pods de servicio de alta prioridad."
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: low-priority
+value: 500000
+globalDefault: true # cualquier pods que no este definido tiene esta prioridad por defecto
+description: "Esta clase de prioridad debe usarse solo para pods de servicio de baja prioridad."
