@@ -1,0 +1,1 @@
+Para ver interface grafica en minikube con el servicio de loadbalancer: minikube service mongo-express-service
