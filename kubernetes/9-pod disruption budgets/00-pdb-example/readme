@@ -1,0 +1,9 @@
+Drenar pod: elimina pod de un nodo y los mueve a otro nodo
+comando: kubectl drain "nombre del nodo" --ignore-daemonsets (esta bandera: para que no quede esperando que caiga el deamoset)
+
+uncordon: marca el nodo como programable
+comando: kubectl uncordon "nombre del nodo"
+
+PodDisruptionBudget: Un PDB limita la cantidad de pods de una aplicación replicada que están inactivos simultáneamente debido a interrupciones voluntarias. Por ejemplo, a una aplicación basada en quórum le gustaría asegurarse de que la cantidad de réplicas en ejecución nunca sea inferior al número necesario para un quóru
+
+Otro ejemplo: Tambien podemos hacer un drain en un nodo determinado, pero si pdb esta activo se mantendra la minima cantidad de pod disponibles gracias al campo(spec.minAvailable) 
