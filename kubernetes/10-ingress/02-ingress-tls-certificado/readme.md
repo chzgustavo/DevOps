@@ -1,9 +1,8 @@
 # Ingress: certificado TLS
 
 
-- [ ] Crear certificado mediante las siguientes opciones
-      * openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout tls-key.key -out tls-cert.crt 
-      * ó openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -keyout tls.key -out tls.crt -subj "/CN=nginxsvc/O=nginxsvc"
+- [ ] Crear certificado mediante las siguientes opciones:
+      ***openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout tls-key.key -out tls-cert.crt*** ó ***openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -keyout tls.key -out tls.crt -subj "/CN=nginxsvc/O=nginxsvc"***
 
 
 - [ ] Decodificar certificado a base64:
