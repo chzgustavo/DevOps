@@ -1,3 +1,3 @@
 # Various
 
-Este repositorio contiene ejemplos de kubernetes, terraform, github actions, entre otros.
+Este repositorio contiene ejemplos de Docker, Kubernetes, Terraform, Github actions, entre otros.
