@@ -5,7 +5,7 @@ EFK es un conjunto de herramientas que combina Elasticsearch, Fluentd y Kibana p
 Pasos para correr EKF:
 - [ ] Crear namespace: ***kubectl create namespace logging***
 - [ ] Elasticsearch: ***kubectl create -f 00-elastic.yaml -n logging***
-- [ ] Kibana: ***kubectl create -f 01-kibana.yaml -n logging***. Pruebe esto en su navegador en http://IP_NODE:KIBANA_EXPOSED_PORT
+- [ ] Kibana: ***kubectl create -f 01-kibana.yaml -n logging***. Pruebe esto en su navegador: http://IP_NODE:KIBANA_EXPOSED_PORT
 - [ ] Fluentd: ***kubectl create -f 02-fluentd-rbac.yaml*** y ***kubectl create -f 03-fluentd-daemonset.yaml***. Al verificar los logs de fluentd debe verse lo siguiente:
 ***kubectl logs fluentd-xxxxx -n kube-system***
     ```
