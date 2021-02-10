@@ -28,6 +28,6 @@ spec:
       containers:
       - name: log-simon
         image: chzgustavo/log-simon:1.0
-        #imagePullPolicy: Never
+        imagePullPolicy: Never
         ports:
         - containerPort: 3001
