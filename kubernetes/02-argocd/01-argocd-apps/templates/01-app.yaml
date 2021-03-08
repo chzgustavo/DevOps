@@ -11,6 +11,6 @@ spec:
     server: {{ .Values.spec.destination.server }}
   project: default
   source:
-    path: kubernetes/1-deployment-service/1-deployment-service
+    path: kubernetes/00-deployment-service-pods/00-deployment-service
     repoURL: {{ .Values.spec.source.repoURL }}
     targetRevision: {{ .Values.spec.source.targetRevision }}

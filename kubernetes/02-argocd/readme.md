@@ -1,3 +1,4 @@
+# argocd
 Para el directorio 01-argocd-apps leer:
 
 Pude funcionar de la siguientes maneras dos maneras:
@@ -7,12 +8,17 @@ Pude funcionar de la siguientes maneras dos maneras:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: apps-test
+  name: test-apps
   namespace: argocd
 spec:
+  syncPolicy:
+    automated:
+      prune: false
+      allowEmpty: false
+      selfHeal: false
   source:
-    path: kubernetes/4-argocd/01-argocd-apps
-    repoURL: https://github.com/chzgustavo/various.git
+    path: kubernetes/02-argocd/01-argocd-apps
+    repoURL: https://github.com/chzgustavo/DevOps.git
     targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
@@ -25,8 +31,8 @@ spec:
  argocd app create apps-name \
     --dest-namespace argocd \
     --dest-server https://kubernetes.default.svc \
-    --repo https://github.com/chzgustavo/various.git \
-    --path kubernetes/4-argocd/01-argocd-apps  
+    --repo https://github.com/chzgustavo/DevOps.git \
+    --path kubernetes/02-argocd/01-argocd-apps
     
  sincronizar app principal: argocd app sync apps 
  
