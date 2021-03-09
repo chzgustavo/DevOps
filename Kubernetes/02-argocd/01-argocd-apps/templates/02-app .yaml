@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: app1
+  name: app2
   namespace: argocd
   finalizers:
   - resources-finalizer.argocd.argoproj.io
@@ -12,10 +12,10 @@ spec:
       allowEmpty: false
       selfHeal: false
   destination:
-    namespace: test1
+    namespace: test2
     server: {{ .Values.spec.destination.server }}
   project: default
   source:
-    path: kubernetes/00-deployment-service-pods/00-deployment-service
+    path: Kubernetes/00-deployment-service-pods/01-deployment-service
     repoURL: {{ .Values.spec.source.repoURL }}
     targetRevision: {{ .Values.spec.source.targetRevision }}

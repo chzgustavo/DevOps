@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: deployserver
+  namespace: argocd
+spec:
+  syncPolicy:
+    automated:
+      prune: false
+      allowEmpty: false
+      selfHeal: false
+  source:
+    path: Kubernetes/00-deployment-service-pods/00-deployment-service
+    repoURL: https://github.com/chzgustavo/DevOps.git
+    targetRevision: HEAD
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: default
+  project: default
