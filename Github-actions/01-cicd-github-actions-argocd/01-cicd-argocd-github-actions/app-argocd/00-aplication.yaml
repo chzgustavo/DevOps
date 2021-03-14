@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cicd-tuberia-test
+  namespace: argocd
+spec:
+  syncPolicy:
+    automated:
+      prune: false
+      allowEmpty: false
+      selfHeal: false
+  source:
+    path: manifiestos-k8s
+    repoURL: https://github.com/chzgustavo/cicd-prueba.git
+    targetRevision: HEAD
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: prueba-create
+  project: default

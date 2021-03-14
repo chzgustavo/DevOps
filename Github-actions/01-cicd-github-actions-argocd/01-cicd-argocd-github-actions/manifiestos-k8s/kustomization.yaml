@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- 00-ns.yaml
+- 01-deployment.yaml
+- 02-service.yaml
+namespace: prueba-create
+images:
+- name: gcr.io/google-samples/hello-app:2.0
+  newName: chzgustavo/hello-gitops
+  newTag: ac5686f6e6f59ee586fcf1ade49caf0463c22f06
