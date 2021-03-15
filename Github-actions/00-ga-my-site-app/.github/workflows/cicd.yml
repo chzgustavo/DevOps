@@ -1,5 +1,9 @@
-on: CICD
-name: deploy
+name: CI-CD
+
+on:
+  push:
+    branches: 
+      - master
 jobs:
   deploy:
     name: deploy to cluster
@@ -14,7 +18,8 @@ jobs:
         repository: ${{ github.repository }}
         tag_with_ref: true
         tag_with_sha: true
-        tags: ${{ github.sha }}
+        tags: ${{ github.sha }}, latest
+
     - uses: actions/checkout@v2
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
