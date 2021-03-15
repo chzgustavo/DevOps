@@ -1,4 +1,4 @@
-on: push
+on: CICD
 name: deploy
 jobs:
   deploy:
@@ -28,3 +28,9 @@ jobs:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
       with:
         args: set image --record deployment/my-app my-app=${{ github.repository }}:${{ github.sha }}
+    - name: verify deployment
+      uses: Consensys/kubernetes-action@master
+      env:
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+      with:
+        args: rollout status deployment/my-app
