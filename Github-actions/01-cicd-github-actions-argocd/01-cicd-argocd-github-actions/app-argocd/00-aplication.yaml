@@ -8,7 +8,7 @@ spec:
     automated:
       prune: false
       allowEmpty: false
-      selfHeal: false
+      selfHeal: true
   source:
     path: manifiestos-k8s
     repoURL: https://github.com/chzgustavo/cicd-prueba.git
