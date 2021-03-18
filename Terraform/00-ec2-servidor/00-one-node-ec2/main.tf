@@ -1,7 +1,7 @@
 data "aws_availability_zones" "all" {}
 
 resource "aws_instance" "example" {
-  ami                    = "ami-0096398577720a4a3"
+  ami                    = "ami-01eb71e14cef400e2"
   instance_type          = "t2.micro"
   key_name = "EC2 Tutorial"
   vpc_security_group_ids = [aws_security_group.instance.id]
