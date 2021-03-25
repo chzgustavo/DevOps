@@ -1,0 +1,3 @@
+# jenkins-demo
+
+configurar credenciales github docker hub, kubeconfig...
