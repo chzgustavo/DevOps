@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: docker-hello-world
+  namespace: dev
+  labels:
+    app: docker-hello-world
+spec:
+  selector:
+    matchLabels:
+      app: docker-hello-world
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: docker-hello-world
+    spec:
+      containers:
+      - name: docker-hello-world
+        image: chzgustavo/node-app:v0.0.1
+        ports:
+        - containerPort: 8080
