@@ -5,13 +5,30 @@ pipeline {
         registry = "chzgustavo/node-app"
         registryCredential = 'docker_hub_login'
         dockerImage = ''
-        tag = "v0.0.1"
+        tag = "v0.0.2"
     }
 
     stages {
-        stage("Test") {
+        stage("Test app") {
             steps {
                 echo 'test the app'
+            }
+        }
+
+        stage ("Lint Dockerfile") {
+            agent {
+                docker {
+                    image 'hadolint/hadolint:latest-debian'
+                }
+            }
+
+            steps {
+                sh 'hadolint Dockerfile | tee -a hadolint_lint.txt'
+            }
+            post {
+                always {
+                    archiveArtifacts 'hadolint_lint.txt'
+                }
             }
         }
 
@@ -20,6 +37,23 @@ pipeline {
                 script {
                   dockerImage = docker.build registry + ":$tag"
                 }  
+            }
+        }
+
+        stage ("Container Vulnerability Scanner") {
+            /*agent {
+                docker {
+                    image 'aquasec/trivy:latest'
+                }
+            }*/
+
+            steps {
+                sh 'docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v ~/.cache:/root/.cache/ aquasec/trivy chzgustavo/node-app:v0.0.2 | tee -a trivy.txt'
+            }
+            post {
+                always {
+                    archiveArtifacts 'trivy.txt'
+                }
             }
         }
 
