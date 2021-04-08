@@ -1,0 +1,128 @@
+pipeline {
+    agent none
+    
+    environment {
+        registry = "chzgustavo/node-app"
+        registryCredential = 'docker_hub_login'
+        dockerImage = ''
+        tag = "v0.0.2"
+    }
+
+    stages {
+        stage("Test app") {
+            agent { 
+                label 'ubuntu-18-04-5'
+            }
+            steps {
+                checkout scm //verifica el codifo fuente
+                echo 'test the app in ubuntu 18.04.5'
+                sh 'hostname'
+                sh 'id'
+                //sh './build.sh' 
+            }
+        }
+    
+        stage ("Lint Dockerfile") {
+                agent {
+                    docker {
+                        label 'ubuntu-18-04-5'
+                        image 'hadolint/hadolint:latest-debian'
+                    }
+                }
+
+                steps {
+                    sh 'hadolint Dockerfile | tee -a hadolint_lint.txt'
+                }
+                post {
+                    always {
+                        archiveArtifacts 'hadolint_lint.txt'
+                    }
+                }
+        }
+
+        stage("Build Docker Image") {
+            agent { 
+                label 'ubuntu-18-04-5'
+            }            
+            steps {                
+                checkout scm  
+                script {
+                    dockerImage = docker.build registry + ":$tag"
+                }             
+            }
+        }
+
+        stage ("Container Vulnerability Scanner") {
+            agent { 
+                label 'ubuntu-18-04-5'
+            }
+            steps {
+                sh 'docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v ~/.cache:/root/.cache/ aquasec/trivy --severity "LOW,MEDIUM,HIGH,CRITICAL" --exit-code 1 chzgustavo/node-app:v0.0.2 | tee -a trivy.txt'
+            }
+            post {
+                always {
+                    archiveArtifacts 'trivy.txt'
+                }
+            }
+        }
+
+        stage("Push docker image") {
+            agent { 
+                label 'ubuntu-18-04-5'
+            }                        
+            steps {
+                checkout scm
+                script {
+                    docker.withRegistry('', registryCredential) {
+                        //dockerImage.push("${env.BUILD_NUMBER}")
+                        dockerImage.push()
+                    }
+                }    
+            }
+        }
+ 
+        stage("Deploy in cluster") {
+            //plugins kubernetes cli
+            agent { 
+                label 'master'
+            }
+            steps {
+                echo 'deploy the app'
+                /*withKubeConfig([credentialsId: 'kube-config-aws',//usar credenciales tipo file
+                    caCertificate: '',
+                    serverUrl: '',
+                    contextName: '',
+                    clusterName: '',
+                    namespace: ''
+                    ]) {
+                sh 'kubectl apply --recursive -f namespaces/'
+                }*/
+            }
+        }
+
+        stage("delete image local") {
+            agent { 
+                label 'ubuntu-18-04-5'
+            }
+            steps {
+                sh 'docker rmi $registry:$tag'
+            }
+        }
+    }
+
+    post {
+        // se ejeucta al ultimo de la tuberia
+        always {
+            // se ejecuta siempre independientemente si sale bien o mal 
+            echo 'always'
+        }
+        success {
+            // se ejecuta si es ok pipeline
+                echo 'success'
+        }
+        failure {
+            // se ejcuta si falla pipeline
+            echo 'failure'
+        }
+    }
+}
