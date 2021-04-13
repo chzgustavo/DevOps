@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+  name: prueba-gha
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: prueba-gha
+  template:
+    metadata:
+      labels:
+        name: prueba-gha
+    spec:
+      containers:
+      - name: cicd-prueba
+        image: chzgustavo/cicd-prueba:22a2b6daf993a828ecafafd0c7c75de0de21290f
+        ports:
+        - containerPort: 8080
+          name: http
