@@ -90,7 +90,7 @@ jobs:
         mkdir -p ~/.kube/
         echo "$KUBE_CONFIG_DATA" | base64 -d > ~/.kube/config
         cd kustomize
-        kustomize edit set image chzgustavo/cicd-prueba:22a2b6daf993a828ecafafd0c7c75de0de21290f=chzgustavo/${{ env.IMAGE_NAME }}:${{ github.sha }}
+        kustomize edit set image chzgustavo/cicd-prueba=chzgustavo/${{ env.IMAGE_NAME }}:${{ github.sha }}
         kustomize build . | kubectl apply -f -
         kubectl -n prueba rollout status deployment/prueba-gha
         URL=`kubectl -n prueba get ngrok -o=custom-columns='DATA:status.url' | tail -n1`
